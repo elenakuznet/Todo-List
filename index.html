@@ -39,7 +39,7 @@
               <button class="todo__btn" type="submit">Отправить</button>
             </form>
 
-            <p class="todo__result">Всего дел: <span class="todo__count">2</span></p>
+            <p class="todo__result">Всего дел: <span class="todo__count">0</span></p>
           </div>
           <div class="todo__list-wrapper">
             <ol class="todo__list">
@@ -78,13 +78,13 @@
 
 
           <div class="calc__btn-wrapper">
-            <button class="calc__btn" type="button">+</button>
-            <button class="calc__btn" type="button">-</button>
-            <button class="calc__btn" type="button">х</button>
-            <button class="calc__btn" type="button">÷</button>
+            <button class="calc__btn" type="button" onclick="plus()">+</button>
+            <button class="calc__btn" type="button" onclick="minus()">-</button>
+            <button class="calc__btn" type="button" onclick="multiply()">х</button>
+            <button class="calc__btn" type="button" onclick="division()">÷</button>
           </div>
           <span class="calc__label">Результат</span>
-          <output class="calc__result" id name="result">0</output>
+          <output class="calc__result" name="result" id="result">0</output>
 
         </form>
       </div>
