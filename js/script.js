@@ -9,22 +9,13 @@ const list = document.querySelector('.todo__list');
 
 const base = {
     employee: 'Петров Сергей Иванович',
-    todo: [
-        {
-            id: 'td1',
-            author: 'Денис Петрович',
-            post: 'Выполнить отгрузку пылесосов',
-            ready: false,
-        },
-        {
-            id: 'td2',
-            author: 'Борис Федорович',
-            post: 'Отправить бригаду починить оборудование',
-            ready: true,
-        }
-    ],
+    todo: getTodoLS(),
     check (id) {
-        console.log(id);
+        for (let i = 0; i < base.todo.length; i++) {
+            if (base.todo[i].id === id) {
+                base.todo.ready = true;
+            }
+        };
     },
 
     addTodo(author, post) {
@@ -43,23 +34,31 @@ const base = {
 
 function addTodo(event) {
     event.preventDefault();
+
     const authorText = author.value;
     const postText = post.value;
 
     const objTodo = base.addTodo(authorText, postText);
     const todoLi = createTodo(objTodo);
+
     list.append(todoLi);
-
-
+    setTodoLS();
     todoForm.reset();
 }
 
 function createTodo(objTodo) {
     const listItem = `
-            <article class="post">
+            <article class="post ${objTodo.ready ? 'post_complete' : ''}">
                 <h3 class="post__author">${objTodo.author}</h3>
                 <p class="post__todo">${objTodo.post}</p>
-                <button class="post__ready" type="button">✔</button>
+                ${!objTodo.ready ?
+                `<button 
+                class="post__ready" 
+                type="button"
+                data-id="${objTodo.id}"
+                >✔</button>` :
+                ''
+            }
             </article>
     `;
 
@@ -78,8 +77,32 @@ function renderTodo () {
 
 function checkTodo(event) {
     const btn = event.target.closest('.post__ready');
-    console.log(btn);
+    
+    if (btn) {
+        const post = btn.closest('.post');
+        btn.remove();
+        post.classList.add('post_complete');
+        const id = btn.dataset.id;
+        base.check(id);
+        setTodoLS();
+    }
+    console.log(base.todo);
 }
+
+function getTodoLS() {
+    if (localStorage.getItem('todo')) {
+        return JSON.parse(localStorage.getItem('todo'));
+    }
+
+    return [];
+
+}
+
+function setTodoLS() {
+    localStorage.setItem('todo', JSON.stringify(base.todo));
+    
+}
+
 
 renderTodo();
 
