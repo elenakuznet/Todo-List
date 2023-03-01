@@ -9,13 +9,13 @@ let count = 0;
 
 
 const base = {
-    employee: 'Петров Сергей Иванович',
+    // employee: 'Петров Сергей Иванович',
     todo: getTodoLS(),
     check (id) {
         for (let i = 0; i < base.todo.length; i++) {
             if (base.todo[i].id === id) {
-                base.todo.ready = true;
-            }
+                base.todo[i].ready = true;
+            } 
         };
     },
 
@@ -34,17 +34,14 @@ const base = {
 
 
 function addTodo(event) {
-    event.preventDefault();
-
     const authorText = author.value;
     const postText = post.value;
-
     const objTodo = base.addTodo(authorText, postText);
     const todoLi = createTodo(objTodo);
 
+    event.preventDefault();
     list.append(todoLi);
     setTodoLS();
-    
     todoForm.reset();
 }
 
@@ -65,10 +62,15 @@ function createTodo(objTodo) {
     `;
 
     const li = document.createElement('li');
+
     li.classList.add('todo__list-item');
     li.innerHTML = listItem;
-    count++;
-    countSpan.innerHTML = count;
+
+    if (!objTodo.ready) {
+        count++;
+        countSpan.innerHTML = count;
+        }
+    
     return li;
 }
     
@@ -84,11 +86,13 @@ function checkTodo(event) {
     
     if (btn) {
         const post = btn.closest('.post');
+        const id = btn.dataset.id;
+
         btn.remove();
         count--;
         countSpan.innerHTML = count;
         post.classList.add('post_complete');
-        const id = btn.dataset.id;
+        
         base.check(id);
         setTodoLS();
     }
@@ -118,51 +122,32 @@ list.addEventListener('click', checkTodo);
 // Калькулятор
 let num1;
 let num2;
-let result;
 
 function plus() {
-    num1 = document.getElementById('x').value;
-    num1 = parseInt(num1);
+    num1 = parseInt(document.getElementById('x').value);
+    num2 = parseInt(document.getElementById('y').value);
 
-    num2 = document.getElementById('y').value;
-    num2 = parseInt(num2);
-
-    result = num1 + num2;
-    document.getElementById('result').innerHTML = result;
+    document.getElementById('result').innerHTML = num1 + num2;
 }
 
 function minus() {
-    num1 = document.getElementById('x').value;
-    num1 = parseInt(num1);
+    num1 = parseInt(document.getElementById('x').value);
+    num2 = parseInt(document.getElementById('y').value);
     
-    num2 = document.getElementById('y').value;
-    num2 = parseInt(num2);
-    
-    result = num1 - num2;
-    document.getElementById('result').innerHTML = result;
+    document.getElementById('result').innerHTML = num1 - num2;
     }
 
 
 function multiply() {
-    num1 = document.getElementById('x').value;
-    num1 = parseInt(num1);
+    num1 = parseInt(document.getElementById('x').value);
+    num2 = parseInt(document.getElementById('y').value);
     
-    num2 = document.getElementById('y').value;
-    num2 = parseInt(num2);
-    
-    result = num1 * num2;
-    document.getElementById('result').innerHTML = result;
+    document.getElementById('result').innerHTML = num1 * num2;
 }
 
 function division() {
-    num1 = document.getElementById('x').value;
-    num1 = parseInt(num1);
+    num1 = parseInt(document.getElementById('x').value);
+    num2 = parseInt(document.getElementById('y').value);
     
-    num2 = document.getElementById('y').value;
-    num2 = parseInt(num2);
-    
-    result = num1 / num2;
-    document.getElementById('result').innerHTML = result;
+    document.getElementById('result').innerHTML = num1 / num2;
 }
-
-
